@@ -1,6 +1,6 @@
 //
 //  SceneDelegate.swift
-//  Swift
+//  SwiftExample
 //
 //  Created by Matthew Wilshire on 02/04/2022.
 //
