@@ -10,10 +10,10 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        testRequest()
+        
         return true
     }
 
@@ -29,6 +29,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    }
+    
+    /*
+        ALL TESTS
+     */
+    
+    func testRequest() {
+        print("--------------------------------")
+        print("\t\tREQUEST TESTS")
+        print("--------------------------------")
+        let req = Request(_url: "http://192.168.1.99/post")
+        req.getPersons() { persons in
+            for person in persons {
+                print("GET Response -> Name: \(person.name) | Age: \(person.age)")
+            }
+            
+        }
+        
+        let person = Person(name: "Matt", age: 21)
+        req.postPerson(person: person) { response in
+            print("POST Response -> \(response)")
+        }
     }
 
 
