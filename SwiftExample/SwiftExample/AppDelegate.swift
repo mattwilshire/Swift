@@ -18,6 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         testCoreData()
         
+        let cm = CloudManager(identifier: "iCloud.ie.insightservices.DiaryPro")
+        cm.addRecord()
+        cm.fetchTestRecords()
+        
         return true
     }
 
