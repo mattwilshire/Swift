@@ -14,6 +14,7 @@ class CoreDataManager {
     let persistentContainer: NSPersistentContainer
     
     init() {
+        // Model is the name of the .xcdatamodel file.
         persistentContainer = NSPersistentContainer(name: "Model")
         persistentContainer.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error {

@@ -15,7 +15,7 @@ class CloudManager {
     var container: CKContainer!
     
     init(identifier: String) {
-        container = CKContainer(identifier: "iCloud.ie.insightservices.DiaryPro")
+        container = CKContainer(identifier: identifier)
     }
     
     func addRecord() {
