@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         testRequest()
         
+        NotificationManager.start()
+        
         return true
     }
 
