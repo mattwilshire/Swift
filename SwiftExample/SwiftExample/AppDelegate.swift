@@ -6,15 +6,27 @@
 //
 
 import UIKit
+import CoreData
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "Model")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error {
+                fatalError("Unresolved error, \((error as NSError).userInfo)")
+            }
+        })
+        return container
+    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         testRequest()
         
         NotificationManager.start()
+        
+        testCoreData()
         
         return true
     }
@@ -38,9 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      */
     
     func testRequest() {
-        print("--------------------------------")
-        print("\t\tREQUEST TESTS")
-        print("--------------------------------")
         let req = Request(_url: "http://192.168.1.99/post")
         req.getPersons() { persons in
             for person in persons {
@@ -53,6 +62,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         req.postPerson(person: person) { response in
             print("POST Response -> \(response)")
         }
+    }
+    
+    func testCoreData() {
+        let cdManager = CoreDataManager()
+        // Delete the previous songs, remove this if you want them to stay after app closes
+        // but if you remove it, it will create a song entry ever time as there is no check for duplicates
+        cdManager.wipeSongs()
+        cdManager.createSong()
+        let songs = cdManager.fetchSongs()
+        for song in songs {
+            print("Song: Name: \(song.name!) - Artist: \(song.artist!)")
+        }
+        
     }
 
 
