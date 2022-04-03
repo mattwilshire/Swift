@@ -10,13 +10,21 @@ import CoreData
 import UIKit
 
 class CoreDataManager {
+    
+    let persistentContainer: NSPersistentContainer
+    
+    init() {
+        persistentContainer = NSPersistentContainer(name: "Model")
+        persistentContainer.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error {
+                fatalError("Unresolved error, \((error as NSError).userInfo)")
+            }
+        })
+    }
+    
     func createSong() {
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-          }
           
-        let managedContext = appDelegate.persistentContainer.viewContext
+        let managedContext = persistentContainer.viewContext
         
         let song = Music(context: managedContext)
         song.name = "First Class"
@@ -33,47 +41,38 @@ class CoreDataManager {
     
     func fetchSongs() -> [Music] {
         var songs: [Music] = []
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-              return [Music]()
-          }
         
-          let managedContext =
-            appDelegate.persistentContainer.viewContext
+        let managedContext = persistentContainer.viewContext
           
-          let fetchRequest = NSFetchRequest<Music>(entityName: "Music")
-          //fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        let fetchRequest = Music.fetchRequest()
+        //fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
           
-          do {
-              songs = try managedContext.fetch(fetchRequest)
-              
-              return songs
-          } catch let error as NSError {
+        do {
+            songs = try managedContext.fetch(fetchRequest)
+            return songs
+        } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
-          }
-        return [Music]()
+        }
+        return []
     }
     
     func wipeSongs() {
         var songs: [Music] = []
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-              return
-          }
           
-          let managedContext = appDelegate.persistentContainer.viewContext
+        let managedContext = persistentContainer.viewContext
         
-          let fetchRequest = NSFetchRequest<Music>(entityName: "Music")
+        let fetchRequest = Music.fetchRequest()
           
-          do {
-              songs = try managedContext.fetch(fetchRequest)
+        do {
+            songs = try managedContext.fetch(fetchRequest)
               
-              for song in songs {
-                  managedContext.delete(song)
-              }
-              try managedContext.save()
-              print("Deleted Songs")
-          } catch let error as NSError {
+            for song in songs {
+                managedContext.delete(song)
+            }
+            try managedContext.save()
+            print("Deleted Songs")
+        } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
-          }
+        }
     }
 }
