@@ -67,13 +67,25 @@ class CloudManager {
     }
     
     func fetchTestRecords() {
+        
+        // Use this to only select title and not CKAsset!
         let database = container.publicCloudDatabase
         let query = CKQuery(recordType: "Test", predicate: NSPredicate(value: true))
-        database.perform(query, inZoneWith: nil) { records, error in
-            records?.forEach({record in
-                print(record)
-            })
+        let qOperation = CKQueryOperation(query: query)
+        qOperation.desiredKeys = ["artist", "title"]
+        
+        // Called when a record becomes avaliable
+        qOperation.recordFetchedBlock = { record in
+            print(record)
         }
+        
+        database.add(qOperation)
+    
+//        database.perform(query, inZoneWith: nil) { records, error in
+//            records?.forEach({record in
+//                print(record)
+//            })
+//        }
     }
     
     func fetchAllPages() {
