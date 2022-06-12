@@ -73,6 +73,7 @@ class CloudManager {
         let query = CKQuery(recordType: "Test", predicate: NSPredicate(value: true))
         let qOperation = CKQueryOperation(query: query)
         qOperation.desiredKeys = ["artist", "title"]
+        qOperation.resultsLimit = 10
         
         // Called when a record becomes avaliable
         qOperation.recordFetchedBlock = { record in
