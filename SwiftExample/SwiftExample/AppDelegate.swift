@@ -14,15 +14,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         print(UIDevice.current.identifierForVendor?.uuidString)
         
-        testRequest()
+        //testRequest()
         
-        NotificationManager.start()
+        //NotificationManager.start()
         
-        testCoreData()
+        //testCoreData()
         
         let cm = CloudManager(identifier: "iCloud.ie.insightservices.DiaryPro")
-        cm.addRecord()
-        cm.fetchTestRecords()
+        //cm.addRecord()
+        //cm.fetchTestRecords()
+        cm.fetchRecordsByUserid()
         
         return true
     }

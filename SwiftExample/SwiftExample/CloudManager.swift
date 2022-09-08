@@ -77,7 +77,7 @@ class CloudManager {
         
         // Called when a record becomes avaliable
         qOperation.recordFetchedBlock = { record in
-            print(record)
+            print(record["artist"])
         }
         
         database.add(qOperation)
@@ -136,7 +136,6 @@ class CloudManager {
     }
     
     func fetchRecordsByUserid() {
-        let container = CKContainer.default()
         let database = container.publicCloudDatabase
         // Get userid to container then use it to fetch the records we inserted
         container.fetchUserRecordID { (userID, erro) -> Void in
